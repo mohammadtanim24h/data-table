@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Data from "./Data";
 
 const DataTable = () => {
     const [allUsers, setAllUsers] = useState([]);
@@ -16,20 +17,26 @@ const DataTable = () => {
     }, []);
     return (
         <div className="mt-4">
-            <h2 className="text-3xl text-blue-500 text-center">Data Table</h2>
+            <h2 className="text-3xl text-blue-500 text-center mb-5">Data Table</h2>
             <div>
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th>Name</th>
-                                <th>Job</th>
-                                <th>Favorite Color</th>
+                                <th className="text-sm">First Name</th>
+                                <th className="text-sm">Last Name</th>
+                                <th className="text-sm">City</th>
+                                <th className="text-sm">Age</th>
+                                <th className="text-sm">Company Name</th>
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            {searchedUsers.map((userData) => (
+                                <Data
+                                    key={userData.id}
+                                    userData={userData}
+                                ></Data>
+                            ))}
                         </tbody>
                     </table>
                 </div>

@@ -1,12 +1,14 @@
 import React from "react";
 
-const Data = () => {
+const Data = ({ userData }) => {
+    const { first_name, last_name, age, city, company_name } = userData;
     return (
         <tr>
-            <th>1</th>
-            <td>Cy Ganderton</td>
-            <td>Quality Control Specialist</td>
-            <td>Blue</td>
+            <td>{first_name}</td>
+            <td>{last_name}</td>
+            <td>{city}</td>
+            <td>{age}</td>
+            <td>{company_name}</td>
         </tr>
     );
 };
