@@ -81,6 +81,36 @@ const DataTable = () => {
         setSelectedPage(0);
     };
 
+    const sortLastNameInAscending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            if (a.last_name < b.last_name) {
+                return -1;
+            }
+            if (b.last_name < a.last_name) {
+                return 1;
+            }
+            return 0;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
+    };
+
+    const sortLastNameInDescending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            if (a.last_name > b.last_name) {
+                return -1;
+            }
+            if (b.last_name > a.last_name) {
+                return 1;
+            }
+            return 0;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
+    };
+
     return (
         <div className="mt-4">
             <h2 className="text-3xl font-semibold text-primary mb-5">
@@ -121,10 +151,12 @@ const DataTable = () => {
                                 <th className="text-sm">
                                     Last Name
                                     <HiSortAscending
+                                        onClick={sortLastNameInAscending}
                                         title="Ascending Order"
                                         className="inline text-base cursor-pointer mx-1"
                                     ></HiSortAscending>
                                     <HiSortDescending
+                                        onClick={sortLastNameInDescending}
                                         title="Descending Order"
                                         className="inline text-base cursor-pointer"
                                     ></HiSortDescending>
