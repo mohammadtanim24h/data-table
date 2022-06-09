@@ -5,6 +5,7 @@ const DataTable = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [searchedUsers, setSearchedUsers] = useState([]);
     const [pageCount, setPageCount] = useState(0);
+    const [selectedPage, setSelectedPage] = useState(0);
 
     useEffect(() => {
         fetch(
@@ -14,7 +15,7 @@ const DataTable = () => {
             .then((data) => {
                 const firstHundred = data.slice(0, 100);
                 setAllUsers(firstHundred);
-                setSearchedUsers(firstHundred);
+                setSearchedUsers(firstHundred.slice(0, 10));
                 setPageCount(firstHundred.length / 10);
             });
     }, []);
@@ -26,6 +27,12 @@ const DataTable = () => {
                 user.first_name.toLowerCase().includes(searchText) ||
                 user.last_name.toLowerCase().includes(searchText)
         );
+        setSearchedUsers(filteredUsers);
+    };
+
+    const showUsers = (number) => {
+        setSelectedPage(number);
+        const filteredUsers = allUsers.slice(number * 10, number * 10 + 10);
         setSearchedUsers(filteredUsers);
     };
 
@@ -66,7 +73,12 @@ const DataTable = () => {
                 <div className="text-center mt-5">
                     {[...Array(pageCount).keys()].map((number, index) => (
                         <button
-                            className="btn btn-sm border border-primary bg-base-100 hover:border-primary text-primary hover:bg-primary hover:text-white font-bold m-1 rounded-md"
+                            onClick={() => showUsers(number)}
+                            className={`btn btn-sm border border-primary bg-base-100 hover:border-primary text-primary hover:bg-primary hover:text-white font-bold m-1 rounded-md ${
+                                selectedPage === number
+                                    ? "bg-primary text-white"
+                                    : ""
+                            }`}
                             key={index}
                         >
                             {number}
