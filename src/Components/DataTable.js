@@ -141,6 +141,24 @@ const DataTable = () => {
         setSelectedPage(0);
     };
 
+    const sortAgeInAscending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            return a.age - b.age;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
+    };
+
+    const sortAgeInDescending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            return b.age - a.age;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
+    };
+
     return (
         <div className="mt-4">
             <h2 className="text-3xl font-semibold text-primary mb-5">
@@ -207,10 +225,12 @@ const DataTable = () => {
                                 <th className="text-sm">
                                     Age{" "}
                                     <HiSortAscending
+                                        onClick={sortAgeInAscending}
                                         title="Ascending Order"
                                         className="inline text-base cursor-pointer mx-1"
                                     ></HiSortAscending>
                                     <HiSortDescending
+                                        onClick={sortAgeInDescending}
                                         title="Descending Order"
                                         className="inline text-base cursor-pointer"
                                     ></HiSortDescending>
