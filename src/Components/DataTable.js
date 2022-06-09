@@ -4,7 +4,7 @@ import Data from "./Data";
 const DataTable = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [searchedUsers, setSearchedUsers] = useState([]);
-    const searchTextRef = useRef("");
+    const [pageCount, setPageCount] = useState(0);
 
     useEffect(() => {
         fetch(
@@ -12,8 +12,10 @@ const DataTable = () => {
         )
             .then((res) => res.json())
             .then((data) => {
-                setAllUsers(data);
-                setSearchedUsers(data);
+                const firstHundred = data.slice(0, 100);
+                setAllUsers(firstHundred);
+                setSearchedUsers(firstHundred);
+                setPageCount(firstHundred.length / 10);
             });
     }, []);
 
@@ -60,6 +62,16 @@ const DataTable = () => {
                             ))}
                         </tbody>
                     </table>
+                </div>
+                <div className="text-center mt-5">
+                    {[...Array(pageCount).keys()].map((number, index) => (
+                        <button
+                            className="btn btn-sm border border-primary bg-base-100 hover:border-primary text-primary hover:bg-primary hover:text-white font-bold m-1 rounded-md"
+                            key={index}
+                        >
+                            {number}
+                        </button>
+                    ))}
                 </div>
             </div>
         </div>
