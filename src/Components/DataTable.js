@@ -4,6 +4,7 @@ import Data from "./Data";
 const DataTable = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [searchedUsers, setSearchedUsers] = useState([]);
+    const searchTextRef = useRef("");
 
     useEffect(() => {
         fetch(
@@ -15,22 +16,32 @@ const DataTable = () => {
                 setSearchedUsers(data);
             });
     }, []);
+
+    const handleSearchUser = (e) => {
+        const searchText = e.target.value.toLowerCase();
+        const filteredUsers = allUsers.filter(
+            (user) =>
+                user.first_name.toLowerCase().includes(searchText) ||
+                user.last_name.toLowerCase().includes(searchText)
+        );
+        setSearchedUsers(filteredUsers);
+    };
+
     return (
         <div className="mt-4">
             <h2 className="text-3xl font-semibold text-primary mb-5">
                 Data Table
             </h2>
+            <span className="text-xl font-semibold">Search: </span>
             <input
-                className="input input-bordered w-full max-w-xs rounded-tr-none rounded-br-none"
+                onChange={handleSearchUser}
+                className="input input-bordered w-full max-w-xs"
                 type="text"
                 placeholder="Search by first or last name"
             />
-            <button className="btn btn-primary text-white rounded-tl-none rounded-bl-none">
-                Search
-            </button>
             <div className="mt-5">
-                <div class="overflow-x-auto">
-                    <table class="table w-full">
+                <div className="overflow-x-auto">
+                    <table className="table w-full">
                         <thead>
                             <tr>
                                 <th className="text-sm">First Name</th>
