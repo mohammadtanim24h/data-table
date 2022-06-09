@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Data from "./Data";
 
 const DataTable = () => {
@@ -12,13 +12,23 @@ const DataTable = () => {
             .then((res) => res.json())
             .then((data) => {
                 setAllUsers(data);
-                setSearchedUsers(data.slice(0, 10));
+                setSearchedUsers(data);
             });
     }, []);
     return (
         <div className="mt-4">
-            <h2 className="text-3xl text-blue-500 text-center mb-5">Data Table</h2>
-            <div>
+            <h2 className="text-3xl font-semibold text-primary mb-5">
+                Data Table
+            </h2>
+            <input
+                className="input input-bordered w-full max-w-xs rounded-tr-none rounded-br-none"
+                type="text"
+                placeholder="Search by first or last name"
+            />
+            <button className="btn btn-primary text-white rounded-tl-none rounded-bl-none">
+                Search
+            </button>
+            <div className="mt-5">
                 <div class="overflow-x-auto">
                     <table class="table w-full">
                         <thead>
