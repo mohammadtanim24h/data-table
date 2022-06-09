@@ -1,9 +1,10 @@
 import "./App.css";
+import DataTable from "./Components/DataTable";
 
 function App() {
     return (
         <div className="App">
-            <h2>Hello world</h2>
+            <DataTable></DataTable>
         </div>
     );
 }
