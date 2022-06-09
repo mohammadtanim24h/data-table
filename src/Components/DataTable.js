@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Data from "./Data";
+import { HiSortAscending } from "react-icons/hi";
+import { HiSortDescending } from "react-icons/hi";
 
 const DataTable = () => {
     const [allUsers, setAllUsers] = useState([]);
@@ -23,21 +25,23 @@ const DataTable = () => {
     }, []);
 
     const handleSearchUser = (e) => {
-        debugger
         const searchText = e.target.value.toLowerCase();
         const filteredUsers = reservedUsers.filter(
             (user) =>
                 user.first_name.toLowerCase().includes(searchText) ||
                 user.last_name.toLowerCase().includes(searchText)
         );
-        setSearchedUsers(filteredUsers.slice(0, 10));
-        setPageCount(Math.ceil(filteredUsers.length / 10));
-        setAllUsers(filteredUsers);
+
         if (searchText === "") {
             setSearchedUsers(reservedUsers.slice(0, 10));
             setPageCount(10);
             setSelectedPage(0);
             setAllUsers(reservedUsers);
+        } else {
+            setSearchedUsers(filteredUsers.slice(0, 10));
+            setPageCount(Math.ceil(filteredUsers.length / 10));
+            setAllUsers(filteredUsers);
+            setSelectedPage(0);
         }
     };
 
@@ -45,6 +49,36 @@ const DataTable = () => {
         setSelectedPage(number);
         const filteredUsers = allUsers.slice(number * 10, number * 10 + 10);
         setSearchedUsers(filteredUsers);
+    };
+
+    const sortFirstNameInAscending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            if (a.first_name < b.first_name) {
+                return -1;
+            }
+            if (b.first_name < a.first_name) {
+                return 1;
+            }
+            return 0;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
+    };
+
+    const sortFirstNameInDescending = () => {
+        const sortedUsers = allUsers.sort(function (a, b) {
+            if (a.first_name > b.first_name) {
+                return -1;
+            }
+            if (b.first_name > a.first_name) {
+                return 1;
+            }
+            return 0;
+        });
+        setSearchedUsers(sortedUsers.slice(0, 10));
+        setAllUsers(sortedUsers);
+        setSelectedPage(0);
     };
 
     return (
@@ -71,11 +105,63 @@ const DataTable = () => {
                     <table className="table w-full">
                         <thead>
                             <tr>
-                                <th className="text-sm">First Name</th>
-                                <th className="text-sm">Last Name</th>
-                                <th className="text-sm">City</th>
-                                <th className="text-sm">Age</th>
-                                <th className="text-sm">Company Name</th>
+                                <th className="text-sm">
+                                    First Name{" "}
+                                    <HiSortAscending
+                                        onClick={sortFirstNameInAscending}
+                                        title="Ascending Order"
+                                        className="inline text-base cursor-pointer mx-1"
+                                    ></HiSortAscending>
+                                    <HiSortDescending
+                                        onClick={sortFirstNameInDescending}
+                                        title="Descending Order"
+                                        className="inline text-base cursor-pointer"
+                                    ></HiSortDescending>
+                                </th>
+                                <th className="text-sm">
+                                    Last Name
+                                    <HiSortAscending
+                                        title="Ascending Order"
+                                        className="inline text-base cursor-pointer mx-1"
+                                    ></HiSortAscending>
+                                    <HiSortDescending
+                                        title="Descending Order"
+                                        className="inline text-base cursor-pointer"
+                                    ></HiSortDescending>
+                                </th>
+                                <th className="text-sm">
+                                    City{" "}
+                                    <HiSortAscending
+                                        title="Ascending Order"
+                                        className="inline text-base cursor-pointer mx-1"
+                                    ></HiSortAscending>
+                                    <HiSortDescending
+                                        title="Descending Order"
+                                        className="inline text-base cursor-pointer"
+                                    ></HiSortDescending>
+                                </th>
+                                <th className="text-sm">
+                                    Age{" "}
+                                    <HiSortAscending
+                                        title="Ascending Order"
+                                        className="inline text-base cursor-pointer mx-1"
+                                    ></HiSortAscending>
+                                    <HiSortDescending
+                                        title="Descending Order"
+                                        className="inline text-base cursor-pointer"
+                                    ></HiSortDescending>
+                                </th>
+                                <th className="text-sm">
+                                    Company Name{" "}
+                                    <HiSortAscending
+                                        title="Ascending Order"
+                                        className="inline text-base cursor-pointer mx-1"
+                                    ></HiSortAscending>
+                                    <HiSortDescending
+                                        title="Descending Order"
+                                        className="inline text-base cursor-pointer"
+                                    ></HiSortDescending>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
