@@ -6,6 +6,7 @@ const DataTable = () => {
     const [searchedUsers, setSearchedUsers] = useState([]);
     const [pageCount, setPageCount] = useState(0);
     const [selectedPage, setSelectedPage] = useState(0);
+    const [reservedUsers, setReservedUsers] = useState([]);
 
     useEffect(() => {
         fetch(
@@ -17,17 +18,27 @@ const DataTable = () => {
                 setAllUsers(firstHundred);
                 setSearchedUsers(firstHundred.slice(0, 10));
                 setPageCount(firstHundred.length / 10);
+                setReservedUsers(firstHundred);
             });
     }, []);
 
     const handleSearchUser = (e) => {
+        debugger
         const searchText = e.target.value.toLowerCase();
-        const filteredUsers = allUsers.filter(
+        const filteredUsers = reservedUsers.filter(
             (user) =>
                 user.first_name.toLowerCase().includes(searchText) ||
                 user.last_name.toLowerCase().includes(searchText)
         );
-        setSearchedUsers(filteredUsers);
+        setSearchedUsers(filteredUsers.slice(0, 10));
+        setPageCount(Math.ceil(filteredUsers.length / 10));
+        setAllUsers(filteredUsers);
+        if (searchText === "") {
+            setSearchedUsers(reservedUsers.slice(0, 10));
+            setPageCount(10);
+            setSelectedPage(0);
+            setAllUsers(reservedUsers);
+        }
     };
 
     const showUsers = (number) => {
@@ -49,6 +60,13 @@ const DataTable = () => {
                 placeholder="Search by first or last name"
             />
             <div className="mt-5">
+                {searchedUsers.length === 0 ? (
+                    <p className="mt-3 text-xl text-center text-red-500 mb-4">
+                        No matching records found
+                    </p>
+                ) : (
+                    ""
+                )}
                 <div className="overflow-x-auto">
                     <table className="table w-full">
                         <thead>
@@ -81,7 +99,7 @@ const DataTable = () => {
                             }`}
                             key={index}
                         >
-                            {number}
+                            {number + 1}
                         </button>
                     ))}
                 </div>
